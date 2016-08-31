@@ -16,16 +16,17 @@ var GreeterForm = React.createClass({
   onFormSubmit: function (e) {
     e.preventDefault();
 
+    var updates = {};
     var name = this.refs.name.value;
-    var message = this.refs.message.value;
-
-    console.log(message);
-
     if (name.length > 0) {
       this.refs.name.value = '';
-      this.refs.message.value = '';
-      this.props.onNewName(name, message);
+      updates.name = name;
     }
+    var message = this.refs.message.value;
+    this.refs.message.value = '';
+    updates.message = message;
+
+    this.props.onNewName(updates);
   },
   render: function () {
     return (
@@ -51,11 +52,8 @@ var Greeter = React.createClass({
       message: this.props.message
     }
   },
-  handleNewName: function (name, message) {
-    this.setState({
-      name: name,
-      message: message
-    });
+  handleNewName: function (updates) {
+    this.setState(updates);
 
     //this.props.message = 'something new!'; // not allowed
   },
